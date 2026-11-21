@@ -93,12 +93,12 @@ def evaluate_candidates(
     y_train,
     X_test,
     y_test,
+    ensemble_method: str = "Ensemble - Soft Voting",
 ) -> tuple[pd.DataFrame, dict, dict]:
-    """Train and fairly evaluate 3 base models plus two ensemble alternatives.
+    """Evaluate exactly 3 base models and ONE validation-selected ensemble.
 
-    Run this only ONCE after finalizing model selection/hyperparameters.
-    The final report may select one ensemble technique based on validation,
-    without tuning or selecting using final test outcomes.
+    Run only after model/hyperparameter and ensemble technique selection
+    have been completed using training folds, not final test outcomes.
     """
     if len(base_models) != 3:
         raise ValueError("Exactly three base models are required.")
@@ -107,7 +107,10 @@ def evaluate_candidates(
     if not set(np.unique(y_test)).issubset({0, 1}):
         raise ValueError("Test labels must be encoded as 0/1.")
 
-    candidates = {**base_models, **make_ensembles(base_models, selected)}
+    ensembles = make_ensembles(base_models, selected)
+    if ensemble_method not in ensembles:
+        raise ValueError(f"Choose an ensemble from {list(ensembles)}")
+    candidates = {**base_models, ensemble_method: ensembles[ensemble_method]}
     rows, fitted_models, confusion_matrices = [], {}, {}
 
     for name, candidate in candidates.items():
