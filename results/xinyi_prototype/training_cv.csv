@@ -1,0 +1,4 @@
+Model,Best Train-CV F1,Best Parameters
+Logistic Regression,0.37232770032188306,"{'model__C': 1.0, 'model__class_weight': 'balanced'}"
+Decision Tree,0.41638063188596225,"{'model__class_weight': 'balanced', 'model__max_depth': 10, 'model__min_samples_leaf': 10}"
+Random Forest,0.4708802818083338,"{'model__class_weight': 'balanced', 'model__max_depth': None, 'model__min_samples_leaf': 5}"
