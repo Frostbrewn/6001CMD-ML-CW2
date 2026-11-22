@@ -1,0 +1,4 @@
+model,baseline_cv_mean,tuned_cv_mean,cv_change,best_parameters
+Logistic Regression,0.2747439514447949,0.37276202437260764,0.09801807292781273,"{'model__C': 10, 'model__class_weight': 'balanced'}"
+Decision Tree,0.3111911606289456,0.41316491913423325,0.10197375850528767,"{'model__class_weight': 'balanced', 'model__max_depth': 10, 'model__min_samples_leaf': 20}"
+Random Forest,0.3347459670084453,0.47186059945592385,0.13711463244747857,"{'model__class_weight': 'balanced', 'model__max_depth': None, 'model__min_samples_leaf': 5, 'model__n_estimators': 200}"
