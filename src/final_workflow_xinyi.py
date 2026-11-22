@@ -70,8 +70,8 @@ def main(full=False):
         return
 
     print("Starting Zyen's final 5-fold tuning (long-running)...", flush=True)
-    cv_table, zyen_test_table, _, tuned = train_models(
-        preprocessing, X_train, X_test, y_train, y_test, scoring=PRIMARY_SCORING,
+    cv_table, tuned = train_models(
+        preprocessing, X_train, y_train, scoring=PRIMARY_SCORING,
     )
     if len(tuned) != 3:
         raise RuntimeError("Expected exactly three tuned Zyen models")
@@ -98,7 +98,19 @@ def main(full=False):
     output = ROOT / "data/raw/xinyi_final_local"
     output.mkdir(parents=True, exist_ok=True)
     cv_table.to_csv(output / "training_cv.csv", index=False)
-    zyen_test_table.to_csv(output / "zyen_base_test.csv", index=False)
+    base_test = comparison.loc[
+        list(tuned.keys()),
+        ["Accuracy", "Precision", "Recall", "F1", "ROC-AUC"],
+    ].rename_axis("model").reset_index()
+    base_test.insert(1, "stage", "tuned")
+    base_test = base_test.rename(columns={
+        "Accuracy": "accuracy",
+        "Precision": "precision",
+        "Recall": "recall",
+        "F1": "f1",
+        "ROC-AUC": "roc_auc",
+    })
+    base_test.to_csv(output / "zyen_base_test.csv", index=False)
     comparison.to_csv(output / "test_comparison.csv")
     (output / "experiment_notes.json").write_text(json.dumps({
         "status": "FINAL INTEGRATION CANDIDATE - review before main merge",
