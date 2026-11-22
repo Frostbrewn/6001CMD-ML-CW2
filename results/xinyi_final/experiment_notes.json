@@ -1,0 +1,15 @@
+{
+  "status": "FINAL INTEGRATION CANDIDATE - review before main merge",
+  "shared_preprocessing": "src/shared_preprocessing.py",
+  "zyen_models": "notebooks/02_base_models.ipynb",
+  "cv_folds": 5,
+  "selected_models": [
+    "Random Forest",
+    "Decision Tree"
+  ],
+  "ensemble_cv_f1": {
+    "Ensemble - Soft Voting": 0.464687593936278,
+    "Ensemble - Stacking": 0.3463672871089448
+  },
+  "chosen_ensemble": "Ensemble - Soft Voting"
+}
